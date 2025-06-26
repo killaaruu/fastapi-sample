@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Финансовый Трекер</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>💰 Финансовый Трекер</h1>
+        <p>Добавьте новый расход — мы автоматически конвертируем его по актуальному курсу</p>
+    </header>
+
+    {% if success %}
+        <p class="success">✅ Успешно добавлено!</p>
+    {% endif %}
+    {% if error %}
+        <p class="error">❌ {{ error }}</p>
+    {% endif %}
+
+    <!-- Пример правильного ввода -->
+    <div style="background-color: #dfe6e9; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+        <strong>Пример:</strong> Вы можете ввести:
+        <ul>
+            <li><strong>Сумма:</strong> 249</li>
+            <li><strong>Валюта:</strong> USD</li>
+            <li><strong>Категория:</strong> Travel</li>
+            <li><strong>Пользователь:</strong> admin</li>
+        </ul>
+    </div>
+
+    <form action="/add_expense" method="post">
+        <label>Сумма:
+            <input type="number" step="0.01" name="amount" required>
+        </label>
+
+        <label>Валюта:
+            <input type="text" name="currency" placeholder="USD/EUR/RUB" required>
+        </label>
+
+        <label>Категория:
+            <input type="text" name="category" required>
+        </label>
+
+        <label>Пользователь:
+            <input type="text" name="user" required>
+        </label>
+
+        <button type="submit">Добавить расход</button>
+    </form>
+
+    <h2>📊 Все расходы</h2>
+    {% if expenses %}
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Пользователь</th>
+                <th>Сумма</th>
+                <th>Валюта</th>
+                <th>В USD</th>
+                <th>Категория</th>
+                <th>Дата</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for expense in expenses %}
+                <tr>
+                    <td>{{ expense.id }}</td>
+                    <td>{{ expense.user }}</td>
+                    <td>{{ expense.amount }}</td>
+                    <td>{{ expense.currency }}</td>
+                    <td>{{ '%0.2f'|format(expense.converted_amount) }}</td>
+                    <td>{{ expense.category }}</td>
+                    <td>{{ expense.timestamp.strftime('%Y-%m-%d %H:%M') }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Нет записей.</p>
+    {% endif %}
+</div>
+<footer>
+    &copy; 2024 sample for pupils| Powered by FastAPI + Jinja2
+</footer>
+</body>
+</html>
