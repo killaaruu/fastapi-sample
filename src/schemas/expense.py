@@ -1,12 +1,16 @@
+# src/schemas/expenses.py
+
 from pydantic import BaseModel
 from datetime import datetime
-from typing import Optional
+from typing import Optional, List
+
 
 class ExpenseCreate(BaseModel):
     amount: float
     currency: str
     category: str
     user: str
+
 
 class ExpenseOut(BaseModel):
     id: int
@@ -20,6 +24,9 @@ class ExpenseOut(BaseModel):
     class Config:
         orm_mode = True
 
-class AdminLogin(BaseModel):
-    username: str
-    password: str
+class PaginatedExpenseOut(BaseModel):
+    items: List[ExpenseOut]
+    total: int
+    page: int
+    size: int
+    pages: int

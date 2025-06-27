@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Финансовый трекер{% endblock %}</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>💰 Финансовый Трекер</h1>
+        <nav>
+            <a href="/">Главная</a> |
+            <a href="/admin">Админка</a>
+        </nav>
+        {% if request.scope["path"] == "/admin" %}
+            <div style="text-align: right;">
+                <a href="/logout" class="logout-link">Выйти из аккаунта</a>
+            </div>
+        {% endif %}
+    </header>
+
+    {% block content %}
+    {% endblock %}
+</div>
+
+<footer>
+    &copy; 2024 Finance Tracker | Powered by FastAPI + Jinja2
+</footer>
+
+</body>
+</html>

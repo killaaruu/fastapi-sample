@@ -1,24 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>🔐 Админ-панель</title>
-    <link rel="stylesheet" href="/static/style.css">
-</head>
-<body>
-<div class="container">
-    <header>
-        <h1>🔐 Админ-панель</h1>
-        <a href="/" style="color: #3498db;">← На главную</a>
-        <a href="/logout" class="logout-link">Выйти из аккаунта</a>
-    </header>
+{% extends "base.html" %}
+{% block title %}Админ-панель{% endblock %}
 
+{% block content %}
+    <h2>🔐 Админ-панель</h2>
+
+    <!-- Фильтрация -->
     <form method="get">
         <label>Целевая валюта:
             <select name="target_currency">
-                <option value="USD" {% if target_currency == 'USD' %}selected{% endif %}>USD</option>
-                <option value="EUR" {% if target_currency == 'EUR' %}selected{% endif %}>EUR</option>
-                <option value="RUB" {% if target_currency == 'RUB' %}selected{% endif %}>RUB</option>
+                <option value="USD" {% if target_currency =='USD' %}selected{% endif %}>USD</option>
+                <option value="EUR" {% if target_currency =='EUR' %}selected{% endif %}>EUR</option>
+                <option value="RUB" {% if target_currency =='RUB' %}selected{% endif %}>RUB</option>
             </select>
         </label>
 
@@ -47,7 +39,7 @@
         <button type="submit">Применить</button>
     </form>
 
-    <p><strong>Найдено записей:</strong> {{ expenses|length }}</p>
+    <p><strong>Найдено записей:</strong> {{ total }}</p>
 
     {% if expenses %}
         <table>
@@ -75,16 +67,32 @@
                     <td>{{ expense.timestamp.strftime('%Y-%m-%d %H:%M') }}</td>
                     <td>
                         <form action="/delete_expense/{{ expense.id }}" method="post">
-                            <button type="submit" style="background-color: #e74c3c;">Удалить</button>
+                            <button type="submit" class="delete-button">Удалить</button>
                         </form>
                     </td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
+
+        <!-- Пагинация -->
+        <div style="margin-top: 20px;">
+            {% set prev_page = current_page - 1 %}
+            {% set next_page = current_page + 1 %}
+
+            {% if current_page > 1 %}
+                <a href="?page={{ prev_page }}&search={{ search }}&user_filter={{ user_filter }}&category_filter={{ category_filter }}">&laquo; Предыдущая</a>
+            {% endif %}
+
+            &nbsp;&nbsp;
+            Страница {{ current_page }} из {{ total_pages }}
+            &nbsp;&nbsp;
+
+            {% if current_page < total_pages %}
+                <a href="?page={{ next_page }}&search={{ search }}&user_filter={{ user_filter }}&category_filter={{ category_filter }}">Следующая &raquo;</a>
+            {% endif %}
+        </div>
     {% else %}
         <p>Записей не найдено.</p>
     {% endif %}
-</div>
-</body>
-</html>
+{% endblock %}
