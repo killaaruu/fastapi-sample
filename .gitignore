@@ -6,6 +6,64 @@ __pycache__/
 # C extensions
 *.so
 
+# Python
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+*.pyc
+*.db
+*.sqlite
+*.mo
+*.po
+*.pot
+*.log
+*.coverage
+htmlcov/
+.pytest_cache/
+.coverage.*
+.tox/
+.env
+.venv/
+env/
+venv/
+virtualenv/
+virtualenvs/
+*.swp
+*.swo
+
+# FastAPI / Uvicorn
+*.ini
+*.log
+*.pid
+*.seed
+*.session
+
+# Docker
+docker-compose.override.yml
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+
+# Alembic
+alembic/versions/*.pyc
+*.pyc
+
+# IDE
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
 # Distribution / packaging
 .Python
 build/
